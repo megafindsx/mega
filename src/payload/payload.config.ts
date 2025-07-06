@@ -27,5 +27,5 @@ export default buildConfig({
   collections: [Users, Media, Categories, Products, Orders, Pages, Redirects],
   globals: [],
   endpoints: [CustomEndpoint],
-  plugins: [stripePlugin(), megafindsPlugin()],
+  plugins: [stripePlugin()],
 });

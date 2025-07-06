@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import next from "next";
-import nextBuild from "next/dist/build";
+import { build as nextBuild } from "next/dist/build"; // ✅ FIXED
 import path from "path";
 
 dotenv.config({
@@ -32,7 +32,6 @@ const start = async (): Promise<void> => {
   if (process.env.NEXT_BUILD) {
     app.listen(PORT, async () => {
       payload.logger.info(`Next.js is now building...`);
-      // @ts-expect-error
       await nextBuild(path.join(__dirname, "../"));
       process.exit();
     });

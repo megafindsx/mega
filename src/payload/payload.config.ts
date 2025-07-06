@@ -1,51 +1,27 @@
-import { buildConfig } from "payload/config";
-import path from "path";
-import seo from "@payloadcms/plugin-seo";
-import stripePlugin from "@payloadcms/plugin-stripe";
+import dotenv from "dotenv";
+dotenv.config();
 
-import Categories from "./collections/Categories";
+import path from "path";
+import { buildConfig } from "payload/config";
+
+import Users from "./collections/Users";
 import Media from "./collections/Media";
-import Pages from "./collections/Pages";
+// ...other collections, ensuring they exist:
+import Categories from "./collections/Categories";
 import Products from "./collections/Products";
 import Orders from "./collections/Orders";
-import Redirects from "./collections/Redirects";
-import Users from "./collections/Users";
+import Pages from "./collections/Pages";
+// DO NOT import non-existent collections like Redirects if file missing
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  admin: {
-    user: Users.slug,
-  },
-  collections: [
-    Categories,
-    Media,
-    Pages,
-    Products,
-    Orders,
-    Redirects,
-    Users,
-  ],
+  admin: { user: Users.slug },
+  collections: [Users, Media, Categories, Products, Orders, Pages],
   globals: [],
   plugins: [
-    seo({
-      collections: [
-        { slug: "pages" },
-        { slug: "products" },
-      ],
-    }),
-    stripePlugin({
-      collections: [
-        {
-          slug: "products",
-          stripeProductIDField: "stripeProductID",
-        },
-      ],
-    }),
+    // Remove stripePlugin and SEO first,
+    // Re-add only once basic build succeeds:
+    // stripePlugin({ stripeSecretKey: process.env.STRIPE_SECRET_KEY, ... }),
+    // seo({ collections: ["pages", "products"], ... }),
   ],
-  typescript: {
-    outputFile: path.resolve(__dirname, "payload-types.ts"),
-  },
-  graphQL: {
-    schemaOutputFile: path.resolve(__dirname, "generated-schema.graphql"),
-  },
 });

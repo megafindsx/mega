@@ -12,8 +12,7 @@ import Products from "./collections/Products";
 import Redirects from "./collections/Redirects";
 import Users from "./collections/Users";
 import { CustomEndpoint } from "./endpoints/custom-endpoint";
-import { megafindsPlugin } from "./plugins/megafindsPlugin";
-import { stripePlugin } from "./plugins/stripe";
+
 
 dotenv.config({
   path: path.resolve(__dirname, "../../.env"),

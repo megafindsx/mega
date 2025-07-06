@@ -9,7 +9,6 @@ import Pages from "./collections/Pages";
 import Products from "./collections/Products";
 import Redirects from "./collections/Redirects";
 import Users from "./collections/Users";
-import { CustomEndpoint } from "./endpoints/custom-endpoint";
 
 import stripePlugin from "@payloadcms/plugin-stripe";
 
@@ -23,14 +22,12 @@ export default buildConfig({
     user: "users",
   },
   collections: [Users, Media, Categories, Products, Orders, Pages, Redirects],
-  globals: [],
-  endpoints: [CustomEndpoint],
   plugins: [
     stripePlugin({
       collections: [
         {
-          slug: "products", // must match Products.slug
-          stripeProductIDField: "stripeProductID", // this must match your Products field
+          slug: "products", // this MUST match your Products slug
+          stripeProductIDField: "stripeProductID", // this must match the field in Products.ts
         },
       ],
     }),

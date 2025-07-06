@@ -5,24 +5,21 @@ import stripePlugin from "@payloadcms/plugin-stripe";
 
 import Categories from "./collections/Categories";
 import Media from "./collections/Media";
-import Pages from "./collections/Pages";
-import Users from "./collections/Users";
-import Products from "./collections/Products";
 import Orders from "./collections/Orders";
+import Pages from "./collections/Pages";
+import Products from "./collections/Products";
 import Redirects from "./collections/Redirects";
+import Users from "./collections/Users";
 
 import seed from "./seed";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
-import { AfterLogin } from "./components/AfterLogin";
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
-    user: Users.slug,
-    components: {
-      afterLogin: [AfterLogin],
-    },
+    user: Users.slug, // assumes Users collection defines slug
+    // Removed missing AfterLogin component
   },
   collections: [
     Categories,
@@ -38,13 +35,11 @@ export default buildConfig({
     seo({
       collections: ["pages", "products"],
     }),
-
-    // ✅ FIXED stripe plugin configuration
     stripePlugin({
       collections: [
         {
-          slug: "products", // This MUST match Products.slug
-          stripeProductIDField: "stripeProductID", // This MUST match the field name in Products collection
+          slug: "products",                    // matches Products.slug
+          stripeProductIDField: "stripeProductID", // matches field in Products collection
         },
       ],
     }),

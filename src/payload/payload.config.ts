@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import { webpackBundler } from "@payloadcms/bundler-webpack"; // bundler-import
 import { mongooseAdapter } from "@payloadcms/db-mongodb"; // database-adapter-import
 import { payloadCloud } from "@payloadcms/plugin-cloud";
@@ -47,11 +48,7 @@ export default buildConfig({
     user: Users.slug,
     bundler: webpackBundler(), // bundler-config
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: [BeforeLogin],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: [BeforeDashboard],
     },
     webpack: (config) => {
@@ -85,11 +82,9 @@ export default buildConfig({
     },
   },
   editor: slateEditor({}), // editor-config
-  // database-adapter-config-start
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI,
+    url: process.env.MONGODB_URI, // ✅ Fixed here
   }),
-  // database-adapter-config-end
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   collections: [Pages, Products, Orders, Media, Categories, Users],
   globals: [Settings, Header, Footer],
@@ -123,8 +118,6 @@ export default buildConfig({
       method: "get",
       handler: productsProxy,
     },
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
     {
       path: "/seed",
       method: "get",

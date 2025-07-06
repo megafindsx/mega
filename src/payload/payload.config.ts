@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import { webpackBundler } from "@payloadcms/bundler-webpack"; // bundler-import

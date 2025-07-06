@@ -1,30 +1,37 @@
-import { buildConfig } from 'payload/config';
 import path from 'path';
 import dotenv from 'dotenv';
+import { buildConfig } from 'payload/config';
 
+// Import your collections
+import Users from './collections/Users';
 import Categories from './collections/Categories';
+// ...add the rest
 import Media from './collections/Media';
-import Orders from './collections/Orders';
 import Pages from './collections/Pages';
 import Products from './collections/Products';
-import Users from './collections/Users'; // ✅ Make sure this path is correct
+import Orders from './collections/Orders';
+import Redirects from './collections/Redirects';
 
 dotenv.config({
-  path: path.resolve(__dirname, '../../../.env'),
+  path: path.resolve(__dirname, '../../.env'),
 });
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
-    user: Users.slug, // ✅ Needed for auth to work
+    user: Users.slug,  // ⚠️ Points to your auth collection
   },
   collections: [
-    Users,      // ✅ Must be included for auth to work
+    Users,       // 🔹 Must include the auth collection
     Media,
     Pages,
     Products,
     Orders,
     Categories,
+    Redirects,
   ],
   globals: [],
+  plugins: [
+    // any plugins you use...
+  ],
 });

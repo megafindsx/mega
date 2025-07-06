@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import next from "next";
-import { build as nextBuild } from "next/dist/build"; // ✅ FIXED
+import { build as nextBuild } from "next/dist/build"; // ✅ FIXED import
 import path from "path";
 
 dotenv.config({

@@ -1,13 +1,12 @@
 import dotenv from "dotenv";
 import path from "path";
 import { buildConfig } from "payload/config";
-import type { CollectionConfig } from "payload/types";
 
 import Categories from "./collections/Categories";
 import Media from "./collections/Media";
 import Orders from "./collections/Orders";
 import Pages from "./collections/Pages";
-import Products from "./collections/Products"; // ✅ This imports the updated config
+import Products from "./collections/Products";
 import Redirects from "./collections/Redirects";
 import Users from "./collections/Users";
 import { CustomEndpoint } from "./endpoints/custom-endpoint";
@@ -28,7 +27,12 @@ export default buildConfig({
   endpoints: [CustomEndpoint],
   plugins: [
     stripePlugin({
-      collections: ["products"], // ✅ Must exactly match the slug
+      collections: [
+        {
+          slug: "products", // must match Products.slug
+          stripeProductIDField: "stripeProductID", // this must match your Products field
+        },
+      ],
     }),
   ],
 });

@@ -1,27 +1,30 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { buildConfig } from 'payload/config';
+import path from 'path';
+import dotenv from 'dotenv';
 
-import path from "path";
-import { buildConfig } from "payload/config";
+import Categories from './collections/Categories';
+import Media from './collections/Media';
+import Orders from './collections/Orders';
+import Pages from './collections/Pages';
+import Products from './collections/Products';
+import Users from './collections/Users'; // ✅ Make sure this path is correct
 
-import Users from "./collections/Users";
-import Media from "./collections/Media";
-// ...other collections, ensuring they exist:
-import Categories from "./collections/Categories";
-import Products from "./collections/Products";
-import Orders from "./collections/Orders";
-import Pages from "./collections/Pages";
-// DO NOT import non-existent collections like Redirects if file missing
+dotenv.config({
+  path: path.resolve(__dirname, '../../../.env'),
+});
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  admin: { user: Users.slug },
-  collections: [Users, Media, Categories, Products, Orders, Pages],
-  globals: [],
-  plugins: [
-    // Remove stripePlugin and SEO first,
-    // Re-add only once basic build succeeds:
-    // stripePlugin({ stripeSecretKey: process.env.STRIPE_SECRET_KEY, ... }),
-    // seo({ collections: ["pages", "products"], ... }),
+  admin: {
+    user: Users.slug, // ✅ Needed for auth to work
+  },
+  collections: [
+    Users,      // ✅ Must be included for auth to work
+    Media,
+    Pages,
+    Products,
+    Orders,
+    Categories,
   ],
+  globals: [],
 });

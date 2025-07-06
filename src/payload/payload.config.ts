@@ -12,6 +12,7 @@ import Products from "./collections/Products";
 import Redirects from "./collections/Redirects";
 import Users from "./collections/Users";
 import { CustomEndpoint } from "./endpoints/custom-endpoint";
+import stripePlugin from '@payloadcms/plugin-stripe';
 
 
 dotenv.config({

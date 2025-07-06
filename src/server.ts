@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import next from "next";
-import { build as nextBuild } from "next/dist/build"; // ✅ FIXED import
+// @ts-expect-error: next/dist/build has no type export, but default works
+import nextBuild from "next/dist/build";
 import path from "path";
 
 dotenv.config({

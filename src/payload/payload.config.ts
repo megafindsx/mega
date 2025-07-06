@@ -5,41 +5,39 @@ import stripePlugin from "@payloadcms/plugin-stripe";
 
 import Categories from "./collections/Categories";
 import Media from "./collections/Media";
-import Orders from "./collections/Orders";
 import Pages from "./collections/Pages";
 import Products from "./collections/Products";
+import Orders from "./collections/Orders";
 import Redirects from "./collections/Redirects";
 import Users from "./collections/Users";
-
-import seed from "./seed";
-import { Footer } from "./globals/Footer";
-import { Header } from "./globals/Header";
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
-    user: Users.slug, // assumes Users collection defines slug
-    // Removed missing AfterLogin component
+    user: Users.slug,
   },
   collections: [
     Categories,
     Media,
     Pages,
-    Users,
     Products,
     Orders,
     Redirects,
+    Users,
   ],
-  globals: [Header, Footer],
+  globals: [],
   plugins: [
     seo({
-      collections: ["pages", "products"],
+      collections: [
+        { slug: "pages" },
+        { slug: "products" },
+      ],
     }),
     stripePlugin({
       collections: [
         {
-          slug: "products",                    // matches Products.slug
-          stripeProductIDField: "stripeProductID", // matches field in Products collection
+          slug: "products",
+          stripeProductIDField: "stripeProductID",
         },
       ],
     }),
@@ -49,10 +47,5 @@ export default buildConfig({
   },
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, "generated-schema.graphql"),
-  },
-  onInit: async (payload) => {
-    if (process.env.PAYLOAD_SEED === "true") {
-      await seed(payload);
-    }
   },
 });
